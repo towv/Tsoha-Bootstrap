@@ -1,0 +1,42 @@
+Frisbeegolf tulospalvelu
+
+    Järjestelmän tarkoitus
+
+Tarkoituksena on tulospalvelu frisbeegolftuloksia varten.
+
+    Tiivis kuvaus siitä mistä on kyse.
+
+Järjestelmään voidaan tallentaa pelaaja ja joukkue ja ratakohtaisia tuloksia.
+
+    Millaisen toiminnan tukemiseen järjestelmä on tarkoitettu.
+
+Järjestelmä on tarkoitettu golf tulosten tarkasteluun.
+
+    Mitkä ovat järjestelmän tavoitteet.
+
+Tavoitteena on kyetä hakemaan pelaajan parhaita tuloksia, joukkueiden parhaita tuloksia, sekä rataennätyksiä.
+
+    Nämä tiedot saa yleensä tehtäväkuvauksesta, kirjoita kuitenkin omin sanoin.
+    Toteutus-/toimintaympäristö
+    Missä ympäristössä työ toteutetaan (yleensä laitoksen users-palvelimella Tomcat- tai Apache-palvelimen alla)
+
+Työ toteutetaan users-palvelimella.
+
+    Täytyykö web-sovelluksen alustajärjestelmän tukea jotain tiettyä ohjelmointikieltä. (esim. Java, Ruby, PHP..?)
+
+Alustajärjestelmä tulee PHPtä.
+
+        Jos edellytetään jotain sovelluskehystä tulisi sekin mainita.
+    Täytyykö käyttäjän selaimen tukea jotain tiettyä ohjelmointikieltä (esim. javascript?).
+
+Ehkä?
+
+    Edellyttääkö ohjelmisto jonkun tietyn tietokannan käyttöä vai voiko sitä vaihtaa helposti. Useimmat työt toimivat vain yhdellä kannalla.
+
+PostgreSQL
+
+
+Käyttötapaukset
+
+xxx
+
