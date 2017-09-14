@@ -8,21 +8,79 @@
     HelloWorldController::sandbox();
   });
 
+  $routes->get('/register', function() {
+  HelloWorldController::register();
+  });
+
+  $routes->get('/login', function() {
+  HelloWorldController::login();
+  });
+
+  $routes->get('/delete', function() {
+  HelloWorldController::delete();
+  });
+
   $routes->get('/records', function() {
   HelloWorldController::records_player();
-});
-$routes->get('/records/1', function() {
-  HelloWorldController::course_show();
-});
+  });
 
-$routes->get('/records/1/1', function() {
-  HelloWorldController::edit_course_show();
-});
+    $routes->get('/records/1', function() {
+  HelloWorldController::records_other();
+  });
 
-$routes->get('/login', function() {
-  HelloWorldController::login();
-});
+  $routes->get('/courses', function() {
+  HelloWorldController::courses();
+  });
 
-$routes->get('/login', function() {
-  HelloWorldController::login();
-});
+  $routes->get('/teams', function() {
+  HelloWorldController::teams();
+  });
+
+  $routes->get('/holeinones', function() {
+  HelloWorldController::holeinones();
+  });
+
+  $routes->get('/records/edit_record', function() {
+  HelloWorldController::edit_record();
+  });
+
+  $routes->get('/records/add_record', function() {
+  HelloWorldController::add_record();
+  });
+
+  $routes->get('/courses/add_course', function() {
+  HelloWorldController::add_course();
+  });
+
+  $routes->get('/teams/add_team', function() {
+  HelloWorldController::add_team();
+  });
+
+  $routes->get('/holeinones/add_holeinones', function() {
+  HelloWorldController::add_holeinones();
+  });
+
+  $routes->get('/courses/show_course', function() {
+  HelloWorldController::show_course();
+  });
+
+  $routes->get('/teams/show_team', function() {
+  HelloWorldController::show_team();
+  });
+
+  $routes->get('/holeinones/show_holeinone', function() {
+  HelloWorldController::show_holeinone();
+  });
+
+  $routes->get('/courses/show_course/edit_course', function() {
+  HelloWorldController::edit_course();
+  });
+
+  $routes->get('/teams/show_team/edit_team', function() {
+  HelloWorldController::edit_team();
+  });
+
+  $routes->get('/holeinones/show_holeinone/edit_holeinone', function() {
+  HelloWorldController::edit_holeinone();
+  });
+

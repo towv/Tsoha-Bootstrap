@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Muokkaa holaria</h1>
+
+  <form>
+    <div class="form-group">
+      <label>Golffari</label>
+      <input class="form-control" value="Juha-Petteri" type="text">
+    </div>
+    <div class="form-group">
+      <label>Rata</label>
+      <input class="form-control" value="Meilahden frisbeegolfrata" type="text">
+    </div>
+    <div class="form-group">
+      <label>Väylä</label>
+      <input class="form-control" value="10" type="text">
+    </div>
+    <div class="form-group">
+      <label>Päivämäärä</label>
+      <input class="form-control" value="13.09.2017" type="text">
+    </div>
+    <div class="form-group">
+      <label>Kuvaus</label>
+      <textarea class="form-control">        Kiekko lensi koriin.
+      </textarea>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Tallenna</button>
+    </div>
+  </form>
+{% endblock %}
