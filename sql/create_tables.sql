@@ -10,8 +10,7 @@ CREATE TABLE Golffari(
 CREATE TABLE Joukkue(
     	id SERIAL PRIMARY KEY,
     	nimi varchar(20) NOT NULL,
-    	kuvaus varchar(300),
-    	luotu timestamp not null default now()
+    	luotu timestamp not null default now(),
 	kuvaus varchar(300)
 );
 
@@ -34,7 +33,7 @@ CREATE TABLE Holari(
     	pelaajaid integer REFERENCES Golffari,
     	rataid integer REFERENCES Rata,
     	vayla integer NOT NULL,
-	pvm DATE
+	pvm DATE,
 	kuvaus varchar(300)
 );
 
