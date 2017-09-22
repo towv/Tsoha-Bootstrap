@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Palloseura</h1>
+  <!-- Painikkeet tähän -->
+  <p>
+    <button class="btn btn-danger">Poista</button> <a href="{{base_path}}/teams/show_team/edit_team" class="btn btn-default">Muokkaa</a>
+  </p>
+  <!-- Tiedot tulee listana tähän -->
+  <ul>
+    <li><strong>Luomispäivä:</strong> 01.01.2011</li>
+  <!-- Kuvaus tulee tähän -->
+  <p>Palloseura on pitkiä perinteitä noudattava joukkue ajalta jolloin frisbeegolf laskettiin palloilulajiksi.
+  </p>
+
+  <button class="btn btn-primary">Liity joukkueeseen</button>
+    <!-- Jäsenet tulevat tähän -->
+    <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Nimi</th>
+        <th>Tunnus luotu</th>
+        <th>Holari</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan pelit tähän -->
+      <tr>
+        <td>Esa Petteri</td>
+        <td>11.11.2011</td>
+        <td><label class="label label-danger">On</label></td>
+      </tr>
+    </tbody>
+  </table>
+
+{% endblock %}

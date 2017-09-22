@@ -8,6 +8,22 @@
     HelloWorldController::sandbox();
   });
 
+  $routes->get('/courses', function() {
+  CourseController::index();
+  });
+
+  $routes->post('/courses', function(){
+  	CourseController::store();
+  });
+
+  $routes->get('/courses/add_course', function(){
+  	CourseController::create();
+  });
+
+  $routes->get('/courses/:id', function($id) {
+  CourseController::show($id);
+  });
+
   $routes->get('/register', function() {
   HelloWorldController::register();
   });
@@ -28,10 +44,6 @@
   HelloWorldController::records_other();
   });
 
-  $routes->get('/courses', function() {
-  HelloWorldController::courses();
-  });
-
   $routes->get('/teams', function() {
   HelloWorldController::teams();
   });
@@ -46,10 +58,6 @@
 
   $routes->get('/records/add_record', function() {
   HelloWorldController::add_record();
-  });
-
-  $routes->get('/courses/add_course', function() {
-  HelloWorldController::add_course();
   });
 
   $routes->get('/teams/add_team', function() {

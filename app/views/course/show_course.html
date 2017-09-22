@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+  {% for t in course %}
+  <div style="color:green"><h1>{{t.name}}</h1></div>
+  
+
+  <!-- Painikkeet tähän -->
+  <p>
+    <button class="btn btn-danger">Poista</button> <a href="{{base_path}}/courses/show_course/edit_course" class="btn btn-default">Muokkaa</a>
+  </p>
+  <!-- Tiedot tulee listana tähän -->
+  
+  <ul>
+    <li><strong>Väyliä:</strong> {{t.holes}}</li>
+    <li><strong>Sijainti:</strong> {{t.par}}</li>
+    <li><strong>Ihannetulos:</strong> {{t.location}}</li>
+  </ul>
+
+  <!-- Kuvaus tulee tähän -->
+  <p>{{t.description}}
+  </p>
+  {% endfor %}
+
+{% endblock %}

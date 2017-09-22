@@ -1,6 +1,6 @@
 -- Lisää DROP TABLE lauseet tähän tiedostoon
 
-DROP TABLE IF EXISTS Golffari;
+DROP TABLE Golffari;
 DROP TABLE IF EXISTS Joukkue;
 DROP TABLE IF EXISTS Jasenliitos;
 DROP TABLE IF EXISTS Rata;
