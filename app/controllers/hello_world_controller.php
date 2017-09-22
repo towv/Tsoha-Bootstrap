@@ -1,5 +1,6 @@
 <?php
 require 'app/models/course.php';
+require 'app/models/team.php';
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -14,8 +15,14 @@ class HelloWorldController extends BaseController {
         // Muista sisällyttää malliluokka require-komennolla!
         // ...
 
-        $meikku = Course::find(1);
-        $courses = Course::all();
+//        $meikku = Course::find(1);
+//        $courses = Course::all();
+//        // Kint-luokan dump-metodi tulostaa muuttujan arvon
+//        Kint::dump($courses);
+//        Kint::dump($meikku);
+        
+        $meikku = Team::find(1);
+        $courses = Team::all();
         // Kint-luokan dump-metodi tulostaa muuttujan arvon
         Kint::dump($courses);
         Kint::dump($meikku);

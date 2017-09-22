@@ -1,5 +1,7 @@
 <?php
+
 require 'app/models/course.php';
+
 class CourseController extends BaseController {
 
     public static function index() {
@@ -7,7 +9,7 @@ class CourseController extends BaseController {
 
         View::make('course/courses.html', array('courses' => $courses));
     }
-    
+
     public static function show($id) {
         $course = Course::find($id);
         View::make('course/show_course.html', array('course' => $course));
@@ -25,7 +27,7 @@ class CourseController extends BaseController {
         ));
 
         $course->save();
-        
+
         Redirect::to('/courses');
 
 //        Redirect::to('/courses/' . $course->id, array('message' => 'Uusi rata lisätty!'));
