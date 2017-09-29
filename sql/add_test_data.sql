@@ -19,5 +19,5 @@ INSERT INTO Holari (pelaajaid, rataid, vayla, kuvaus) VALUES (1, 1, 1, 'Se vaan 
 
 -- Tulos-taulun testidata
 
-INSERT INTO Tulos(pelaajaid, rataid, tulos) VALUES (1, 1, 42);
+INSERT INTO Tulos(pelaajaid, rataid, tulos, pvm) VALUES (1, 1, -2, 20.04.2017);
 

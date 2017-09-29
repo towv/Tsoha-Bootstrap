@@ -24,6 +24,22 @@ $routes->get('/courses/:id', function($id) {
     CourseController::show($id);
 });
 
+$routes->get('/courses/:id/edit', function($id) {
+    CourseController::edit($id);
+});
+
+$routes->post('/courses/:id/edit', function($id) {
+    CourseController::update($id);
+});
+
+$routes->post('/courses/:id/destroy', function($id) {
+    CourseController::destroy($id);
+});
+
+$routes->get('/courses/:id/delete', function($id) {
+    CourseController::delete($id);
+});
+
 $routes->get('/teams', function() {
     TeamController::index();
 });
@@ -40,8 +56,44 @@ $routes->get('/teams/:id', function($id) {
     TeamController::show($id);
 });
 
+$routes->get('/holeinones', function() {
+    HoleinoneController::index();
+});
+
+$routes->post('/holeinones', function() {
+    HoleinoneController::store();
+});
+
+$routes->get('/holeinones/add_holeinones', function() {
+    HoleinoneController::create();
+});
+
+$routes->get('/holeinones/:id', function($id) {
+    HoleinoneController::show($id);
+});
+
+$routes->get('/records', function() {
+    RecordController::index();
+});
+
+$routes->get('/records/add_record', function() {
+    RecordController::create();
+});
+
+$routes->get('/records/my', function() {
+    RecordController::my();
+});
+
+$routes->post('/records/my', function() {
+    RecordController::store();
+});
+
 $routes->get('/register', function() {
-    HelloWorldController::register();
+    GolferController::create();
+});
+
+$routes->post('/register', function() {
+    GolferController::store();
 });
 
 $routes->get('/login', function() {
@@ -52,16 +104,12 @@ $routes->get('/delete', function() {
     HelloWorldController::delete();
 });
 
-$routes->get('/records', function() {
+$routes->get('/records/pelaajamalli', function() {
     HelloWorldController::records_player();
 });
 
-$routes->get('/records/1', function() {
+$routes->get('/records/muumalli', function() {
     HelloWorldController::records_other();
-});
-
-$routes->get('/holeinones', function() {
-    HelloWorldController::holeinones();
 });
 
 $routes->get('/records/edit_record', function() {
@@ -70,18 +118,6 @@ $routes->get('/records/edit_record', function() {
 
 $routes->get('/records/add_record', function() {
     HelloWorldController::add_record();
-});
-
-$routes->get('/holeinones/add_holeinones', function() {
-    HelloWorldController::add_holeinones();
-});
-
-$routes->get('/courses/show_course', function() {
-    HelloWorldController::show_course();
-});
-
-$routes->get('/holeinones/show_holeinone', function() {
-    HelloWorldController::show_holeinone();
 });
 
 $routes->get('/courses/show_course/edit_course', function() {

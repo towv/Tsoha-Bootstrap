@@ -43,6 +43,7 @@ CREATE TABLE Tulos(
     	pelaajaid integer REFERENCES Golffari,
     	rataid integer REFERENCES Rata,
     	tulos integer NOT NULL,
-    	pvm DATE
+    	pvm DATE,
+	luotu timestamp not null default now()
 );
 

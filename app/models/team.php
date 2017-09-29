@@ -7,6 +7,7 @@ class Team extends BaseModel {
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->created = substr($this->created, 0, 10);
+        $this->validators = array('validate_name', 'validate_description');
     }
 
     public static function all() {
@@ -57,6 +58,25 @@ class Team extends BaseModel {
         $row = $query->fetch();
 
         $this->id = $row['id'];
+    }
+    
+    public function validate_name() {
+        $errors = array();
+        if ($this->name == '' || $this->name == null) {
+            $errors[] = 'Nimi on pakollinen';
+        }
+        if (strlen($this->name) > 20) {
+            $errors[] = 'Nimen maksimipituus on 20 merkkiä';
+        }
+        return $errors;
+    }
+    
+    public function validate_description() {
+        $errors = array();
+        if (strlen($this->description) > 300) {
+            $errors[] = 'Kuvauksen maksimipituus on 300 merkkiä';
+        }
+        return $errors;
     }
 
 }

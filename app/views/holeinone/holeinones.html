@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Hole in one: Holariarkisto</h1>
+
+  <p>
+    <a href="{{base_path}}/holeinones/add_holeinones" class="btn btn-success">Lisää holari</a>
+  </p>
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Golffari</th>
+        <th>Rata</th>
+        <th>Väylä</th>
+        <th>Päivämäärä</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Listataan ennätykset tähän -->
+      {% for h in holewnames %}
+      <tr>
+        <td>{{h.golfername}}</td>
+        <td><a href="{{base_path}}/courses/{{h.course}}">{{h.coursename}}</a></td>
+        <td>{{h.hole}}</td>
+        <td>{{h.date}}</td>
+        <th><a class="btn btn-default btn-sm" href="{{base_path}}/holeinones/{{h.id}}">Näytä</a></th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

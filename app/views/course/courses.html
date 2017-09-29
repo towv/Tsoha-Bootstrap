@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Radat</h1>
-
+{% if message != null %}
+<br>
+<div class="alert alert-danger">
+    {{message}}
+</div>
+{% endif %}
 <p>
     <a href="{{base_path}}/courses/add_course" class="btn btn-success">Lisää rata</a>
 </p>

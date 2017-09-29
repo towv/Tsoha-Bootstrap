@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Ei kannata poistaa..</h1>
+<!-- Painikkeet tähän -->
+<p>
+    {% for t in course %}
+<form method="post" action="{{base_path}}/courses/{{t.id}}/destroy" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">:(</button>
+</form>
+<a href="javascript:history.back()" class="btn btn-default">Palaa</a>
+    {% endfor %}
+</p>
+{% endblock %}

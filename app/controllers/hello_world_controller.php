@@ -1,6 +1,11 @@
 <?php
+
 require 'app/models/course.php';
 require 'app/models/team.php';
+require 'app/models/holeinone.php';
+require 'app/models/golfer.php';
+require 'app/models/record.php';
+
 class HelloWorldController extends BaseController {
 
     public static function index() {
@@ -9,24 +14,32 @@ class HelloWorldController extends BaseController {
         //echo 'Tämä on etusivu!';
     }
 
-    
-
     public static function sandbox() {
         // Muista sisällyttää malliluokka require-komennolla!
         // ...
-
 //        $meikku = Course::find(1);
 //        $courses = Course::all();
 //        // Kint-luokan dump-metodi tulostaa muuttujan arvon
 //        Kint::dump($courses);
 //        Kint::dump($meikku);
-        
-        $meikku = Team::find(1);
-        $courses = Team::all();
-        // Kint-luokan dump-metodi tulostaa muuttujan arvon
+//        $meikku = Team::find(1);
+//        $courses = Team::all();
+//        Kint::dump($courses);
+//        Kint::dump($meikku);
+//        $meikku = Holeinone::find(1);
+//        $courses = Holeinone::all();
+//        Kint::dump($courses);
+//        Kint::dump($meikku);
+//        $meikku = Golfer::find(1);
+//        $courses = Golfer::all();
+//        Kint::dump($courses);
+//        Kint::dump($meikku);
+//        $meikku = Record::find(1);
+//        $courses = Record::all();
+//        Kint::dump($courses);
+//        Kint::dump($meikku);
+        $courses = Holeinone::allwnames();
         Kint::dump($courses);
-        Kint::dump($meikku);
-
 
 
 
