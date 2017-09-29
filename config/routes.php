@@ -97,31 +97,19 @@ $routes->post('/register', function() {
 });
 
 $routes->get('/login', function() {
-    HelloWorldController::login();
+    GolferController::login();
+});
+
+$routes->post('/login', function() {
+    GolferController::handle_login();
 });
 
 $routes->get('/delete', function() {
     HelloWorldController::delete();
 });
 
-$routes->get('/records/pelaajamalli', function() {
-    HelloWorldController::records_player();
-});
-
-$routes->get('/records/muumalli', function() {
-    HelloWorldController::records_other();
-});
-
 $routes->get('/records/edit_record', function() {
     HelloWorldController::edit_record();
-});
-
-$routes->get('/records/add_record', function() {
-    HelloWorldController::add_record();
-});
-
-$routes->get('/courses/show_course/edit_course', function() {
-    HelloWorldController::edit_course();
 });
 
 $routes->get('/teams/show_team/edit_team', function() {

@@ -31,15 +31,15 @@ class HelloWorldController extends BaseController {
 //        Kint::dump($courses);
 //        Kint::dump($meikku);
 //        $meikku = Golfer::find(1);
-//        $courses = Golfer::all();
-//        Kint::dump($courses);
+        $courses = Golfer::all();
+        Kint::dump($courses);
 //        Kint::dump($meikku);
 //        $meikku = Record::find(1);
 //        $courses = Record::all();
 //        Kint::dump($courses);
 //        Kint::dump($meikku);
-        $courses = Holeinone::allwnames();
-        Kint::dump($courses);
+//        $courses = Holeinone::allwnames();
+//        Kint::dump($courses);
 
 
 

@@ -99,7 +99,7 @@ class CourseController extends BaseController {
 
     public static function delete($id) {
         $course = Course::find($id);
-        View::make('course/delete.html', array('attributes' => $course));
+        View::make('course/delete.html', array('attributes' => $course[0]));
     }
 
 }

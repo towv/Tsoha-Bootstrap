@@ -11,36 +11,42 @@ class RecordController extends BaseController {
         $records = Record::allwnames();
         $teams = Team::all();
         $courses = Course::all();
-        
+
         View::make('record/records.html', array('records' => $records, 'teams' => $teams, 'courses' => $courses));
     }
-    
+
     public static function store() {
         $params = $_POST;
-        
+
         $record = new Record(array(
-           'golfer' => $params['golfer'],
+            'golfer' => $params['golfer'],
             'course' => $params['course'],
             'score' => $params['score'],
             'date' => $params['date']
         ));
-        
+
         $record->save();
-        
+
         Redirect::to('/records/my');
     }
-    
+
     public static function create() {
         $courses = Course::all();
-        
+
         View::make('/record/add_record.html', array('courses' => $courses));
     }
-    
+
     public static function my() {
-        $records = Record::findwme(1);
-        $courses = Course::all();
-        
-        View::make('record/myrecords.html', array('records' => $records, 'courses' => $courses));
+        if (isset($_SESSION['golfer'])) {
+            $records = Record::findwme(self::get_user_logged_in()->id);
+            View::make('record/myrecords.html', array('records' => $records));
+        } else {
+            View::make('record/records.html');
+        }
+//        $records = Record::findwme(1);
+//        $courses = Course::all();
+//
+//        View::make('record/myrecords.html', array('records' => $records, 'courses' => $courses));
     }
 
 }

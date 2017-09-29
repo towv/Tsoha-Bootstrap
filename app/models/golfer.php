@@ -62,6 +62,29 @@ class Golfer extends BaseModel {
 
         $this->id = $row['id'];
     }
+    
+    public static function authenticate($name, $password) {
+        $query = DB::connection()->prepare('SELECT * FROM Golffari WHERE nimi = :name AND salasana = :password LIMIT 1');
+        
+        $query->execute(array(
+            'name' => $name,
+            'password' => $password
+        ));
+        
+        $row = $query->fetch();
+        if ($row) {
+            $golfer[] = new Golfer(array(
+                'id' => $row['id'],
+                'name' => $row['nimi'],
+                'password' => $row['salasana'],
+                'joined' => $row['luotu'],
+                'holeinone' => $row['holari']
+            ));
+            return $golfer;
+        } else {
+            return null;
+        }
+    }
 
     public function validate_name() {
         $errors = array();
