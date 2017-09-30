@@ -18,7 +18,7 @@ class RecordController extends BaseController {
         }
         
         if ($course == 'all' && $team == 'all') {
-            $records = Record::allwnames();
+            $records = Record::allWithNames();
         } else if ($course != 'all' && $team == 'all') {
             $records = Record::allWithCourse($course);
         } else if ($course == 'all' && $team != 'all') {
@@ -56,7 +56,7 @@ class RecordController extends BaseController {
 
     public static function my() {
         if (isset($_SESSION['golfer'])) {
-            $records = Record::findwme(self::get_user_logged_in()->id);
+            $records = Record::findReturnWithNames(self::get_user_logged_in()->id);
             View::make('record/myrecords.html', array('records' => $records));
         } else {
             Self::index();

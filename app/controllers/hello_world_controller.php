@@ -49,10 +49,12 @@ class HelloWorldController extends BaseController {
 //        Kint::dump($records);
 //        $memberamountinteam = Team::allWamountOmembers();
 //        Kint::dump($memberamountinteam);
-        $palloseura = Golfer::getTeam(1);
-        Kint::dump($palloseura);
-        $toinenjoukkue = Golfer::getTeam(2);
-        Kint::dump($toinenjoukkue);
+//        $palloseura = Golfer::getTeam(1);
+//        Kint::dump($palloseura);
+//        $toinenjoukkue = Golfer::getTeam(2);
+//        Kint::dump($toinenjoukkue);
+        $ennatyjskii = Record::allWithTeamActualRecordNoName(1);
+        Kint::dump($ennatyjskii);
 
 
         // Testaa koodiasi täällä

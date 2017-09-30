@@ -33,7 +33,7 @@ class Record extends BaseModel {
         return $records;
     }
 
-    public static function allwnames() {
+    public static function allWithNames() {
         include_once 'app/models/golfer.php';
         include_once 'app/models/course.php';
         $records = self::all();
@@ -80,18 +80,14 @@ class Record extends BaseModel {
         return $recordswcourse;
     }
     
-    public static function allWithTeam($id) {
+    public static function allWithTeam($team) {
         include_once 'app/models/golfer.php';
         include_once 'app/models/course.php';
-        $records = self::all();
-        $recordswcourse = array();
-
+        $records = self::allWithTeamActualRecordNoName($team);
+        $recordswteam = array();
 
         foreach ($records as $row) {
-            if ($row->course != $id) {
-                continue;
-            }
-            $recordswcourse[] = array(
+            $recordswteam[] = array(
                 'id' => $row->id,
                 'golfer' => $row->golfer,
                 'course' => $row->course,
@@ -102,21 +98,45 @@ class Record extends BaseModel {
                 'added' => $row->added
             );
         }
-        return $recordswcourse;
+        return $recordswteam;
     }
     
-    public static function allWithTeamAndCourse($course, $team) {
+    public static function allWithTeamActualRecordNoName($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Jasenliitos JOIN Golffari ON golffari.id = jasenliitos.pelaajaid JOIN Tulos ON golffari.id = tulos.pelaajaid WHERE Jasenliitos.joukkueid = :id');
+        $query->execute(array('id' => $id));
+        
+        $rows = $query->fetchAll();
+        
+        $records = array();
+
+        foreach ($rows as $row) {
+            $records[] = new Record(array(
+                'id' => $row['id'],
+                'golfer' => $row['pelaajaid'],
+                'course' => $row['rataid'],
+                'score' => $row['tulos'],
+                'date' => $row['pvm'],
+                'added' => $row['luotu']
+            ));
+        }
+
+        return $records;
+        
+    }
+    
+    public static function allWithTeamAndCourse($team, $course) {
         include_once 'app/models/golfer.php';
         include_once 'app/models/course.php';
-        $records = self::all();
-        $recordswcourse = array();
+        include_once 'app/models/team.php';
+        $records = self::allWithTeamActualRecordNoName($team);
+        $recordswithteamandcourse = array();
 
 
         foreach ($records as $row) {
-            if ($row->course != $id) {
+            if ($row->course != $course) {
                 continue;
             }
-            $recordswcourse[] = array(
+            $recordswithteamandcourse[] = array(
                 'id' => $row->id,
                 'golfer' => $row->golfer,
                 'course' => $row->course,
@@ -127,7 +147,7 @@ class Record extends BaseModel {
                 'added' => $row->added
             );
         }
-        return $recordswcourse;
+        return $recordswithteamandcourse;
     }
 
     public static function find($id) {
@@ -176,7 +196,7 @@ class Record extends BaseModel {
 //        return null;
 //    }
 
-    public static function findwme($id) {
+    public static function findReturnWithNames($id) {
         $query = DB::connection()->prepare('SELECT * FROM Tulos WHERE pelaajaid = :id');
         $query->execute(array('id' => $id));
         $rows = $query->fetchAll();
