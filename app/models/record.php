@@ -11,7 +11,7 @@ class Record extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Tulos');
+        $query = DB::connection()->prepare('SELECT * FROM Tulos ORDER BY rataid, tulos');
 
         $query->execute();
 
@@ -52,6 +52,7 @@ class Record extends BaseModel {
                 'added' => $row->added
             );
         }
+        
         return $recordswnames;
     }
     
@@ -102,7 +103,7 @@ class Record extends BaseModel {
     }
     
     public static function allWithTeamActualRecordNoName($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Jasenliitos JOIN Golffari ON golffari.id = jasenliitos.pelaajaid JOIN Tulos ON golffari.id = tulos.pelaajaid WHERE Jasenliitos.joukkueid = :id');
+        $query = DB::connection()->prepare('SELECT * FROM Jasenliitos JOIN Golffari ON golffari.id = jasenliitos.pelaajaid JOIN Tulos ON golffari.id = tulos.pelaajaid WHERE Jasenliitos.joukkueid = :id ORDER BY rataid, tulos');
         $query->execute(array('id' => $id));
         
         $rows = $query->fetchAll();
