@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user_logged_in %}
 <h1>Lisää uusi tulos</h1>
 
 <form method="post" action="{{base_path}}/records/my">
@@ -18,11 +19,15 @@
     </div>
     <div class="form-group">
         <label>Tulos</label>
-        <input name="hole" class="form-control" type="text" placeholder="Esim. +42">
+        <input name="score" class="form-control" type="text" placeholder="Esim. +42">
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Tallenna</button>
     </div>
 </form>
+{% else %}
 
+<div style="color:blue"><h1>Kirjaudu sisään lisätäksesi tuloksia</h1></div>
+
+{% endif %}
 {% endblock %}

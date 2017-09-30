@@ -5,6 +5,7 @@ require 'app/models/team.php';
 require 'app/models/holeinone.php';
 require 'app/models/golfer.php';
 require 'app/models/record.php';
+require 'app/models/member.php';
 
 class HelloWorldController extends BaseController {
 
@@ -31,8 +32,8 @@ class HelloWorldController extends BaseController {
 //        Kint::dump($courses);
 //        Kint::dump($meikku);
 //        $meikku = Golfer::find(1);
-        $courses = Golfer::all();
-        Kint::dump($courses);
+//        $courses = Golfer::all();
+//        Kint::dump($courses);
 //        Kint::dump($meikku);
 //        $meikku = Record::find(1);
 //        $courses = Record::all();
@@ -40,7 +41,18 @@ class HelloWorldController extends BaseController {
 //        Kint::dump($meikku);
 //        $courses = Holeinone::allwnames();
 //        Kint::dump($courses);
-
+//        $records = Record::findwme(self::get_user_logged_in()->id);
+//        Kint::dump($records);
+//        $records = Member::findMembersWteam(1);
+//        Kint::dump($records);
+//        $joo = Golfer::getMembers($records);
+//        Kint::dump($records);
+//        $memberamountinteam = Team::allWamountOmembers();
+//        Kint::dump($memberamountinteam);
+        $palloseura = Golfer::getTeam(1);
+        Kint::dump($palloseura);
+        $toinenjoukkue = Golfer::getTeam(2);
+        Kint::dump($toinenjoukkue);
 
 
         // Testaa koodiasi täällä

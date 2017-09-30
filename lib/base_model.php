@@ -37,11 +37,11 @@ class BaseModel {
         return $errors;
     }
     
-    public function validatedate($string, $errors) {
-        if (!preg_match('[0-3][0-9].(([0][1-9])|([1][0-2])).[0-9][0-9][0-9][0-9]', $string)) {
-            $errors[] = 'Päivämäärä väärässä muodossa';
-        }
-        return $errors;
-    }
+//    public function validatedate($string, $errors) {
+//        if (!preg_match('[0-3][0-9].(([0][1-9])|([1][0-2])).[0-9][0-9][0-9][0-9]', $string)) {
+//            $errors[] = 'Päivämäärä väärässä muodossa';
+//        }
+//        return $errors;
+//    }
 
 }

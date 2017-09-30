@@ -3,6 +3,11 @@
 require 'app/models/golfer.php';
 
 class GolferController extends BaseController {
+    
+    public static function index() {
+        $golfers = Golfer::all();
+        View::make('golfer/users.html', array('golfers' => $golfers));
+    }
 
     public static function store() {
         $params = $_POST;
@@ -35,7 +40,7 @@ class GolferController extends BaseController {
         } else {
             $_SESSION['golfer'] = $golfer[0]->id;
 
-            Redirect::to('/holeinones', array('message' => 'Tervetuloa ' . $golfer[0]->name . '! Tulikos holari vai mitäs täällä pyörit?'));
+            Redirect::to('/holeinones', array('message' => 'Tervetuloa takasin ' . $golfer[0]->name . '! Tulikos holari vai mitäs täällä pyörit?'));
         }
     }
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user_logged_in %}
 <h1>Ei kannata poistaa..</h1>
 <!-- Painikkeet tähän -->
 <p>
@@ -10,4 +11,9 @@
 <a href="javascript:history.back()" class="btn btn-default">Palaa</a>
     {% endfor %}
 </p>
+{% else %}
+
+  <div style="color:blue"><h2>Kirjaudu sisään poistaaksesi ratoja</h2></div>
+
+  {% endif %}
 {% endblock %}

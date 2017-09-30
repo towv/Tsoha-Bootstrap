@@ -11,7 +11,7 @@
     {{message}}
 </div>
 {% endif %}
-{% endif %}
+
 
 <p>
     <a href="{{base_path}}/records/add_record" class="btn btn-success">Lisää tulos</a>
@@ -34,11 +34,17 @@
         <tr>
             <td><a href="{{base_path}}/courses/{{r.course}}">{{r.coursename}}</a></td>
             <td>{{r.date}}</td>
-            <td><label class="label label-success">-2</label></td>
+            <td><label class="label label-success">{{r.score}}</label></td>
             <td>{{r.added}}</td>
             <th><a class="btn btn-default btn-sm" href="{{base_path}}/records/edit_record">Muokkaa</a></th>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+{% else %}
+
+<div style="color:blue"><h1>Kirjaudu sisään nähdäksesi omat ennätyksesi listattuna</h1></div>
+
+{% endif %}
 {% endblock %}

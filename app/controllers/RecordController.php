@@ -7,8 +7,26 @@ require 'app/models/team.php';
 class RecordController extends BaseController {
 
     public static function index() {
-//        $records = Record::all();
-        $records = Record::allwnames();
+        $params = $_POST;
+        $team = 'all';
+        if (isset($params["team"])) {
+            $team = $params['team'];
+        }
+        $course = 'all';
+        if (isset($params["course"])) {
+            $course = $params['course'];
+        }
+        
+        if ($course == 'all' && $team == 'all') {
+            $records = Record::allwnames();
+        } else if ($course != 'all' && $team == 'all') {
+            $records = Record::allWithCourse($course);
+        } else if ($course == 'all' && $team != 'all') {
+            $records = Record::allWithTeam($team);
+        } else {
+            $records = Record::allWithTeamAndCourse($team, $course);
+        }
+
         $teams = Team::all();
         $courses = Course::all();
 
@@ -19,7 +37,7 @@ class RecordController extends BaseController {
         $params = $_POST;
 
         $record = new Record(array(
-            'golfer' => $params['golfer'],
+            'golfer' => self::get_user_logged_in()->id,
             'course' => $params['course'],
             'score' => $params['score'],
             'date' => $params['date']
@@ -41,7 +59,7 @@ class RecordController extends BaseController {
             $records = Record::findwme(self::get_user_logged_in()->id);
             View::make('record/myrecords.html', array('records' => $records));
         } else {
-            View::make('record/records.html');
+            Self::index();
         }
 //        $records = Record::findwme(1);
 //        $courses = Course::all();

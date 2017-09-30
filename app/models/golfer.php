@@ -7,6 +7,7 @@ class Golfer extends BaseModel {
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_name', 'validate_password');
+        $this->joined = substr($this->joined, 0, 10);
     }
 
     public static function all() {
@@ -48,6 +49,52 @@ class Golfer extends BaseModel {
             return $golfer;
         }
         return null;
+    }
+    //Hakee golffarit, parametrina jasenliitos -taulusta saatu lista jasenia
+    public static function getMembers($members) {
+        $golfers = array();
+        require_once 'app/models/member.php';
+        
+        foreach($members as $member) {
+            $query = DB::connection()->prepare('SELECT * FROM Golffari WHERE id = :id');
+            $query->execute(array('id' => $member->golfer));
+            
+            $row = $query->fetch();
+            
+            $golfer = new Golfer(array(
+                'id' => $row['id'],
+                'name' => $row['nimi'],
+                'password' => $row['salasana'],
+                'joined' => $row['luotu'],
+                'holeinone' => $row['holari']
+            ));
+            
+            $golfers[] = $golfer;
+        }
+        return $golfers;
+    }
+    
+    // Hakee golffarit jotka kuuluvat tietyn ID:n joukkueeseen
+    public static function getTeam($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Jasenliitos JOIN Golffari ON golffari.id = jasenliitos.pelaajaid WHERE Jasenliitos.joukkueid = :id');
+        $query->execute(array('id' => $id));
+        
+        $rows = $query->fetchAll();
+        
+        $golfers = array();
+
+        foreach ($rows as $row) {
+            $golfers[] = new Golfer(array(
+                'id' => $row['id'],
+                'name' => $row['nimi'],
+                'password' => $row['salasana'],
+                'joined' => $row['luotu'],
+                'holeinone' => $row['holari']
+            ));
+        }
+
+        return $golfers;
+        
     }
 
     public function save() {

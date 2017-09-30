@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user_logged_in %}
 <h1>Muokkaa joukkuetta Palloseura</h1>
 
 <form>
@@ -16,4 +17,9 @@
         <button type="submit" class="btn btn-primary">Tallenna</button>
     </div>
 </form>
+{% else %}
+
+<div style="color:blue"><h1>Kirjaudu sisään muokataksesi joukkueita</h1></div>
+
+{% endif %}
 {% endblock %}

@@ -7,6 +7,7 @@
 
 
 <!-- Painikkeet tähän -->
+{% if user_logged_in %}
 <p>
 {{forms.destroy_button("#{base_path}/courses/#{t.id}/destroy")}}
 <!--TOIMIVA NAPPI<form method="post" action="{{base_path}}/courses/{{t.id}}/destroy" style="display: inline-block;">
@@ -18,12 +19,13 @@
 <!--KESKEN<a href="{{base_path}}/courses/{{t.id}}/delete" class="btn btn-default">Poista</a>-->
 <a href="{{base_path}}/courses/{{t.id}}/edit" class="btn btn-default">Muokkaa</a>
 </p>
+{% endif %}
 <!-- Tiedot tulee listana tähän -->
 
 <ul>
     <li><strong>Väyliä:</strong> {{t.holes}}</li>
-    <li><strong>Sijainti:</strong> {{t.par}}</li>
-    <li><strong>Ihannetulos:</strong> {{t.location}}</li>
+    <li><strong>Sijainti:</strong> {{t.location}}</li>
+    <li><strong>Ihannetulos:</strong> {{t.par}}</li>
 </ul>
 
 <!-- Kuvaus tulee tähän -->

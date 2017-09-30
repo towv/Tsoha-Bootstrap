@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lista golffareista</h2>
+{% for g in golfers %}
+<p>
+    {{g.name}}
+</p>
+{% endfor %}
+{% endblock %}

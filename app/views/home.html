@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="page-header">
-    <h1>Tervetuloa Frisbeegolf Tulospalveluun</h1>
-  </div>
+{% if user_logged_in %}
+<div class="page-header">
+    <h1>Kuule {{user_logged_in.name}} ei täällä kannata notkua lähe kikelle</h1>
+</div>
 
-  <p>Se on tulospalvelu frisbeegolftuloksia varten. Halusin tällä sivulla vain toivottaa tervetuloa. Toivottaa vierailijat tervetulleiksi Frisbeegolf Tulospalveluun.</p>
-  Viikon fakta: Eväät ovat tärkeitä golffissa :)
-  <p>
+<p align="right">
+    Viikon fakta: Eväät ovat tärkeitä golffissa :)
+</p>
+
+    {% else %}
+<div class="page-header">
+    <h1>Tervetuloa Frisbeegolf Tulospalveluun</h1>
+</div>
+
+<p>Se on tulospalvelu frisbeegolftuloksia varten. Halusin tällä sivulla vain toivottaa tervetuloa. Toivottaa vierailijat tervetulleiksi Frisbeegolf Tulospalveluun.</p>
+<p></p>
+<p>
     <a href="{{base_path}}/register" class="btn btn-primary btn-lg">Rekisteröidy golffariksi <span class="glyphicon glyphicon-chevron-right"></span></a>
-  </p>
+</p>
+<br></br>
+<br></br>
+<br></br>
+{% endif %}
 {% endblock %}

@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-
-  <p>
+{% if user_logged_in %}
+<p>
     <a href="{{base_path}}/records/my" class="btn btn-success">OMAT ENKAT</a>
-  </p>
+</p>
+{% endif %}
 
 <form method="post" action="{{base_path}}/records">
-    <select class="selectpicker" data-style="btn-primary">
+    <select name ='team' class="selectpicker" data-style="btn-primary">
         <optgroup label="Kaikki">
-            <option>Näytä kaikki</option>
+            <option value='all'>Näytä kaikki</option>
         </optgroup>
         <optgroup label="Joukkueet">
             {% for t in teams %}
@@ -16,9 +17,9 @@
             {% endfor %}
     </select>
 
-    <select class="selectpicker" data-style="btn-info">
+    <select name='course' class="selectpicker" data-style="btn-info">
         <optgroup label="Kaikki">
-            <option>Näytä kaikki</option>
+            <option value='all'>Näytä kaikki</option>
         </optgroup>
         <optgroup label="Radat">
             {% for c in courses %}

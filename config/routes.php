@@ -56,6 +56,10 @@ $routes->get('/teams/:id', function($id) {
     TeamController::show($id);
 });
 
+$routes->post('/teams/:id/join', function($id) {
+    MemberController::store($id);
+});
+
 $routes->get('/holeinones', function() {
     HoleinoneController::index();
 });
@@ -73,6 +77,10 @@ $routes->get('/holeinones/:id', function($id) {
 });
 
 $routes->get('/records', function() {
+    RecordController::index();
+});
+
+$routes->post('/records', function() {
     RecordController::index();
 });
 
@@ -102,6 +110,10 @@ $routes->get('/login', function() {
 
 $routes->post('/login', function() {
     GolferController::handle_login();
+});
+
+$routes->get('/golfers', function() {
+    GolferController::index();
 });
 
 $routes->get('/delete', function() {

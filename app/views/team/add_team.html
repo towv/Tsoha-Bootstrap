@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user_logged_in %}
 <h1>Lisää uusi joukkue</h1>
 
 <form method="post" action="{{base_path}}/teams">
@@ -15,4 +16,9 @@
         <button type="submit" class="btn btn-primary">Tallenna</button>
     </div>
 </form>
+{% else %}
+
+<div style="color:blue"><h1>Kirjaudu sisään lisätäksesi joukkueita</h1></div>
+
+{% endif %}
 {% endblock %}

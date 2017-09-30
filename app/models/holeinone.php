@@ -119,7 +119,7 @@ class Holeinone extends BaseModel {
 
         if ($this->date != null && $this->date != '') {
             if (!preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $this->date)) {
-                $errors[] = 'Päivämäärä väärässä muodossa';
+                $errors[] = 'Päivämäärä väärässä muodossa, oikea muoto: PP.KK.VVVV';
             }
         }
         return $errors;

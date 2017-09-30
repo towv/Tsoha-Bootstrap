@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>HOLE IN ONE!</h1>
-  <!-- Painikkeet tähän -->
-  <p>
+<h1>HOLE IN ONE!</h1>
+<!-- Painikkeet tähän -->
+<p>
+    {% if user_logged_in %}
     <button class="btn btn-danger">Poista</button> <a href="{{base_path}}/holeinones/show_holeinone/edit_holeinone" class="btn btn-default">Muokkaa</a>
-  </p>
-  <!-- Tiedot tulee listana tähän -->
-  {% for h in holeinone %}
-  <ul>
+    {% endif %}
+</p>
+<!-- Tiedot tulee listana tähän -->
+{% for h in holeinone %}
+<ul>
     <li><strong>Golffari:</strong>{{h.golfername}}</li>
     <li><strong>Rata:</strong>{{h.coursename}}</li>
     <li><strong>Väylä:</strong>{{h.hole}}</li>
-  </ul>
-  <li><strong>Päivämäärä:</strong>{{h.date}}</li>
-  </ul>
-  <!-- Kuvaus tulee tähän -->
-  <p>{{h.description}}
-  </p>
-  {% endfor %}
+</ul>
+<li><strong>Päivämäärä:</strong>{{h.date}}</li>
+</ul>
+<!-- Kuvaus tulee tähän -->
+<p>{{h.description}}
+</p>
+{% endfor %}
 {% endblock %}

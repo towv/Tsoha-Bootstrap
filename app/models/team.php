@@ -30,6 +30,24 @@ class Team extends BaseModel {
 
         return $teams;
     }
+    
+    public static function allWamountOmembers() {
+        include_once 'app/models/member.php';
+        $teams = self::all();
+        $teamsWmembers = array();
+
+
+        foreach ($teams as $row) {
+            $teamsWmembers[] = array(
+                'id' => $row->id,
+                'name' => $row->name,
+                'description' => $row->description,
+                'created' => $row->created,
+                'members' => count(Member::findMembersWteam($row->id), 0)
+            );
+        }
+        return $teamsWmembers;
+    }
 
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Joukkue WHERE id = :id LIMIT 1');

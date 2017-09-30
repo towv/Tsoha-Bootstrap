@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user_logged_in %}
 <h1>Lisää uusi rata</h1>
 
 {% if errors %}
@@ -37,4 +38,10 @@
         <button type="submit" class="btn btn-primary">Tallenna</button>
     </div>
 </form>
+  
+  {% else %}
+
+  <div style="color:blue"><h2>Kirjaudu sisään lisätäksesi ratoja</h2></div>
+
+  {% endif %}
 {% endblock %}
