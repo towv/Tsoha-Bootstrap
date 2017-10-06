@@ -43,7 +43,8 @@ class HoleinoneController extends BaseController {
         $holeinone = new Holeinone($attributes);
         $errors = $holeinone->errors();
         if (count($errors) == 0) {
-            Golfer::updateHoleinoneTrue($attributes['golfer']);
+            require_once 'app/models/golfer.php';
+            Golfer::updateHoleinoneTrue($holeinone->golfer);
             $holeinone->save();
             Redirect::to('/holeinones/' . $holeinone->id, array('message' => 'MITÄÄÄÄ!!??? HOLARI!'));
         } else {

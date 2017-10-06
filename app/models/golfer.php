@@ -142,11 +142,9 @@ class Golfer extends BaseModel {
 
     public static function updateHoleinoneTrue($id) {
 
-        $query = DB::connection()->prepare('UPDATE Golffari SET holari = :holari WHERE id = :id');
-
+        $query = DB::connection()->prepare('UPDATE Golffari SET holari = true WHERE id = :id');
         $query->execute(array(
-            'id' => $id,
-            'holari' => TRUE
+            'id' => $id
         ));
     }
 

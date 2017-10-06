@@ -45,8 +45,12 @@ class BaseModel {
 //    }
     public function validatedate($date) {
         $errors = array();
+        
+        if ($date == null || $date == '') {
+            $errors[] = 'Päivämäärä on pakollinen.';
+        }
 
-        if ($this->date != null && $this->date != '') {
+        if ($date != null && $date != '') {
             if (!preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $this->date) && !preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $this->date)) {
                 $errors[] = 'Päivämäärä väärässä muodossa, oikea muoto: PP.KK.VVVV tai YYYY-MM-DD';
             }

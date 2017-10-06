@@ -121,9 +121,11 @@ class Holeinone extends BaseModel {
         }
         return null;
     }
-/*
+
+    /*
      * Tallentaa uuden holarin tietokantaan
      */
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Holari (pelaajaid, rataid, vayla, pvm, kuvaus) VALUES (:golfer, :course, :hole, :date, :description) RETURNING id');
 
@@ -134,14 +136,17 @@ class Holeinone extends BaseModel {
 
         $this->id = $row['id'];
     }
-/*
+
+    /*
      * Päivittää holarin tiedot tietokantaan.
      */
+
     public function update() {
         $query = DB::connection()->prepare('UPDATE Holari SET pelaajaid = :golfer, rataid = :course, vayla = :hole, pvm = :date, kuvaus = :description WHERE id = :id');
         $query->execute(array('id' => $this->id, 'golfer' => $this->golfer, 'course' => $this->course,
             'hole' => $this->hole, 'date' => $this->date, 'description' => $this->description));
     }
+
     /*
      * Poistaa holarin tietokannasta.
      */

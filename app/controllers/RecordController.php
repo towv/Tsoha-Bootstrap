@@ -66,7 +66,8 @@ class RecordController extends BaseController {
             $record->save();
             Redirect::to('/records/my');
         } else {
-            View::make('course/add_record.html', array('errors' => $errors, 'attributes' => $attributes));
+            $courses = Course::all();
+            View::make('record/add_record.html', array('errors' => $errors, 'attributes' => $attributes, 'courses' => $courses));
         }
     }
 
