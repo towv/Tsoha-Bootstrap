@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
 {% block content %}
 
 <a href="{{base_path}}/records" class="btn btn-primary">Palaa ennätyksiin</a>
@@ -12,7 +13,15 @@
 </div>
 {% endif %}
 
-
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 <p>
     <a href="{{base_path}}/records/add_record" class="btn btn-success">Lisää tulos</a>
 </p>
@@ -36,7 +45,7 @@
             <td>{{r.date}}</td>
             <td><label class="label label-success">{{r.score}}</label></td>
             <td>{{r.added}}</td>
-            <th><a class="btn btn-default btn-sm" href="{{base_path}}/records/edit_record">Muokkaa</a></th>
+            <th>{{forms.destroy_button("#{base_path}/records/#{r.id}/destroy")}}</th>
         </tr>
         {% endfor %}
     </tbody>
@@ -47,4 +56,5 @@
 <div style="color:blue"><h1>Kirjaudu sisään nähdäksesi omat ennätyksesi listattuna</h1></div>
 
 {% endif %}
+
 {% endblock %}

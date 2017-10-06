@@ -1,6 +1,9 @@
 <?php
 
 require 'app/models/course.php';
+/*
+ * Kontrolleri. Hoitaa Ratoihin liittyvät toiminnallisuudet.
+ */
 
 class CourseController extends BaseController {
 
@@ -37,7 +40,7 @@ class CourseController extends BaseController {
         }
 
 
-
+// VANHA MALLI
 //        $course = new Course(array(
 //            'name' => $params['name'],
 //            'holes' => $params['holes'],
@@ -59,7 +62,7 @@ class CourseController extends BaseController {
     // Radan muokkaaminen (lomakkeen esittäminen)
     public static function edit($id) {
         $course = Course::find($id);
-        View::make('course/edit_course.html', array('attributes' => $course[0]));
+        View::make('course/edit_course.html', array('attributes' => $course));
     }
 
     // Radan muokkaaminen (lomakkeen käsittely)
@@ -89,17 +92,18 @@ class CourseController extends BaseController {
 
     //Radan poisto
     public static function destroy($id) {
-        //Alustetaan Rata-olio annetulla ideellä
-        $course = new Course(array('id' => $id));
-        //Kutsutaan coursemodel eli Rata-malliluokan metodia destroy, joka poistaa radan sen ideellä
-        $course->destroy();
-        //Ohjataan käyttäjä ratojen listaussivulle ilmoituksen kera
-        Redirect::to('/courses', array('message' => 'Rata on poistettu :('));
-    }
-
-    public static function delete($id) {
         $course = Course::find($id);
-        View::make('course/delete.html', array('attributes' => $course[0]));
+        $errors = $course->validate_connections();
+        if (count($errors) == 0) {
+            //Alustetaan Rata-olio annetulla ideellä
+            $course = new Course(array('id' => $id));
+            //Kutsutaan coursemodel eli Rata-malliluokan metodia destroy, joka poistaa radan sen ideellä
+            $course->destroy();
+            //Ohjataan käyttäjä ratojen listaussivulle ilmoituksen kera
+            Redirect::to('/courses', array('message' => 'Rata on poistettu :('));
+        } else {
+            Redirect::to('/courses/' . $id, array('errors' => $errors));
+        }
     }
 
 }

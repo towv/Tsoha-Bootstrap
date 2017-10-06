@@ -1,23 +1,26 @@
 {% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
 {% block content %}
 <h1>HOLE IN ONE!</h1>
 <!-- Painikkeet tähän -->
+{% if user_logged_in %}
+{% if boolean == TRUE %}
 <p>
-    {% if user_logged_in %}
-    <button class="btn btn-danger">Poista</button> <a href="{{base_path}}/holeinones/show_holeinone/edit_holeinone" class="btn btn-default">Muokkaa</a>
-    {% endif %}
+    {{forms.destroy_button("#{base_path}/holeinones/#{holeinone.id}/destroy")}}    
+    <a href="{{base_path}}/holeinones/{{holeinone.id}}/edit" class="btn btn-default">Muokkaa</a>
+
 </p>
+{% endif %}
+{% endif %}
 <!-- Tiedot tulee listana tähän -->
-{% for h in holeinone %}
 <ul>
-    <li><strong>Golffari:</strong>{{h.golfername}}</li>
-    <li><strong>Rata:</strong>{{h.coursename}}</li>
-    <li><strong>Väylä:</strong>{{h.hole}}</li>
+    <li><strong>Golffari:</strong>{{holeinone.golfername}}</li>
+    <li><strong>Rata:</strong>{{holeinone.coursename}}</li>
+    <li><strong>Väylä:</strong>{{holeinone.hole}}</li>
 </ul>
-<li><strong>Päivämäärä:</strong>{{h.date}}</li>
+<li><strong>Päivämäärä:</strong>{{holeinone.date}}</li>
 </ul>
 <!-- Kuvaus tulee tähän -->
-<p>{{h.description}}
+<p>{{holeinone.description}}
 </p>
-{% endfor %}
 {% endblock %}

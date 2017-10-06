@@ -1,60 +1,78 @@
 {% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
 {% block content %}
 
-{% for t in team %}
-<h1>{{t.name}}</h1>
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<h1>{{team.name}}</h1>
 <!-- Painikkeet tähän -->
 {% if user_logged_in %}
 <p>
-    <button class="btn btn-danger">Poista</button> <a href="{{base_path}}/teams/show_team/edit_team" class="btn btn-default">Muokkaa</a>
+    {{forms.destroy_button("#{base_path}/teams/#{team.id}/destroy")}} <a href="{{base_path}}/teams/{{team.id}}/edit" class="btn btn-default">Muokkaa</a>
 </p>
 {% endif %}
 <!-- Tiedot tulee listana tähän -->
 <ul>
-    <li><strong>Luomispäivä:</strong> {{t.created}}</li>
+    <li><strong>Luomispäivä:</strong> {{team.created}}</li>
 </ul>
 <!-- Kuvaus tulee tähän -->
-<p>{{t.description}}
+<p>{{team.description}}
+</p>
+{% if user_logged_in %}
+<p>
+<form method="post" action="{{base_path}}/teams/{{team.id}}/join" style="display: inline-block;">
+    <button type="submit" class="btn btn-primary">Liity joukkueeseen</button>
+</form>
+
+<form method="post" action="{{base_path}}/teams/{{team.id}}/leave" style="display: inline-block;">
+    <button type="submit" class="btn btn-primary">Eroa joukkueesta</button></form>
+
 </p>
 
-<form method="post" action="{{base_path}}/teams/{{t.id}}/join" style="display: inline-block;">
-    <button type="submit" class="btn btn-primary">Liity joukkueeseen</button>
-    {% if message != null %}
-    <br>
-    <div class="alert alert-danger">
-        {{message}}
-    </div>
-    {% endif %}
-    {% endfor %}
-    <!-- Jäsenet tulevat tähän -->
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Nimi</th>
-                <th>Tunnus luotu</th>
-                <th>Holari</th>
-            </tr>
-        </thead>
+{% endif %}
+{% if message != null %}
+<br>
+<div class="alert alert-danger">
+    {{message}}
+</div>
+{% endif %}
 
-        <tbody>
-            <!-- Listataan jäsenet tähän -->
-            {% for g in golfers %}
-            <!--            <tr>
-                            <td>Esa Petteri</td>
-                            <td>11.11.2011</td>
-                            <td><label class="label label-danger">On</label></td>
-                        </tr>-->
-            <tr>
-                <td>{{g.name}}</td>
-                <td>{{g.joined}}</td>
-                {% if g.holeinone %}
-                <td><label class="label label-success">On</label></td>
-                {% else %}
-                <td><label class="label label-danger">Ei vielä</label></td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- Jäsenet tulevat tähän -->
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nimi</th>
+            <th>Tunnus luotu</th>
+            <th>Holari</th>
+        </tr>
+    </thead>
 
-    {% endblock %}
+    <tbody>
+        <!-- Listataan jäsenet tähän -->
+        {% for g in golfers %}
+        <!--            <tr>
+                        <td>Esa Petteri</td>
+                        <td>11.11.2011</td>
+                        <td><label class="label label-danger">On</label></td>
+                    </tr>-->
+        <tr>
+            <td>{{g.name}}</td>
+            <td>{{g.joined}}</td>
+            {% if g.holeinone %}
+            <td><label class="label label-success">On</label></td>
+            {% else %}
+            <td><label class="label label-danger">Ei vielä</label></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

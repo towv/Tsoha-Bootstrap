@@ -8,7 +8,7 @@ class BaseController {
         if (isset($_SESSION['golfer'])) {
             $id = $_SESSION['golfer'];
             // Pyydetään Golfer-mallilta käyttäjä session mukaisella id:llä
-            $golfer = Golfer::find($id)[0];
+            $golfer = Golfer::find($id);
             return $golfer;
         }
         // Jos käyttäjä ei ole kirjautunut palautetaan null
@@ -18,6 +18,9 @@ class BaseController {
     public static function check_logged_in() {
         // Toteuta kirjautumisen tarkistus tähän.
         // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
+        if (!isset($_SESSION['golfer'])) {
+            Redirect::to('/login', array('message' => 'Kirjaudu ensin sisään!'));
+        }
     }
 
 }

@@ -1,37 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
 {% if user_logged_in %}
-  <h1>Muokkaa holaria</h1>
+<h1>Muokkaa holaria</h1>
 
-  <form>
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<ul>
+    <li><strong>Golffari:</strong>{{holeinone.golfername}}</li>
+    <li><strong>Rata:</strong>{{holeinone.coursename}}</li>
+</ul>
+<form method="post" action="{{base_path}}/holeinones/{{attributes.id}}/edit">
+    <input name="golfer" value="{{attributes.golfer}}" type="hidden">
+    <input name="course" value="{{attributes.course}}" type="hidden">
     <div class="form-group">
-      <label>Golffari</label>
-      <input class="form-control" value="Juha-Petteri" type="text">
+        <label for="hole">Väylä</label>
+        <input name="hole" class="form-control" value="{{attributes.hole}}" type="text">
     </div>
     <div class="form-group">
-      <label>Rata</label>
-      <input class="form-control" value="Meilahden frisbeegolfrata" type="text">
+        <label for="date">Päivämäärä</label>
+        <input name="date" class="form-control" value="{{attributes.date}}" type="text">
     </div>
     <div class="form-group">
-      <label>Väylä</label>
-      <input class="form-control" value="10" type="text">
+        <label for="description">Kuvaus</label>
+        <textarea name="description" class="form-control">{{attributes.description}}
+        </textarea>
     </div>
     <div class="form-group">
-      <label>Päivämäärä</label>
-      <input class="form-control" value="13.09.2017" type="text">
+        <button type="submit" class="btn btn-primary">Tallenna</button>
     </div>
-    <div class="form-group">
-      <label>Kuvaus</label>
-      <textarea class="form-control">        Kiekko lensi koriin.
-      </textarea>
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Tallenna</button>
-    </div>
-  </form>
-  {% else %}
+</form>
 
-  <div style="color:blue"><h1>Kirjaudu sisään muokataksesi holareita</h1></div>
+{% else %}
 
-  {% endif %}
+<div style="color:blue"><h1>Kirjaudu sisään muokataksesi holareita</h1></div>
+
+{% endif %}
 {% endblock %}

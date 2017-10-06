@@ -1,10 +1,14 @@
 <?php
 
 require 'app/models/golfer.php';
+/*
+ * Kontrolleri. Hoitaa käyttäjään, eli Golffariin, liittyvät toiminnallisuudet.
+ */
 
 class GolferController extends BaseController {
-    
+
     public static function index() {
+        self::check_logged_in();
         $golfers = Golfer::all();
         View::make('golfer/users.html', array('golfers' => $golfers));
     }
@@ -12,14 +16,20 @@ class GolferController extends BaseController {
     public static function store() {
         $params = $_POST;
 
-        $golfer = new Golfer(array(
+        $attributes = array(
             'name' => $params['name'],
             'password' => $params['password']
-        ));
+        );
 
-        $golfer->save();
+        $golfer = new Golfer($attributes);
+        $errors = $golfer->errors();
 
-        Redirect::to('/records');
+        if (count($errors) == 0) {
+            $golfer->save();
+            Redirect::to('/records');
+        } else {
+            View::make('golfer/register.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
     }
 
     public static function create() {
@@ -38,10 +48,15 @@ class GolferController extends BaseController {
         if (!$golfer) {
             View::make('golfer/login.html', array('error' => 'Väärä käyttäjätunnus tai salasana tai molemmat', 'name' => $params['name']));
         } else {
-            $_SESSION['golfer'] = $golfer[0]->id;
+            $_SESSION['golfer'] = $golfer->id;
 
-            Redirect::to('/holeinones', array('message' => 'Tervetuloa takasin ' . $golfer[0]->name . '! Tulikos holari vai mitäs täällä pyörit?'));
+            Redirect::to('/holeinones', array('message' => 'Tervetuloa takasin ' . $golfer->name . '! Tulikos holari vai mitäs täällä pyörit?'));
         }
+    }
+
+    public static function logout() {
+        $_SESSION['golfer'] = null;
+        Redirect::to('/login', array('message' => 'Pirteää kierrosta!'));
     }
 
 }

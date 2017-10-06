@@ -1,5 +1,9 @@
 <?php
 
+function check_logged_in() {
+    BaseController::check_logged_in();
+}
+
 $routes->get('/', function() {
     HelloWorldController::index();
 });
@@ -36,10 +40,6 @@ $routes->post('/courses/:id/destroy', function($id) {
     CourseController::destroy($id);
 });
 
-$routes->get('/courses/:id/delete', function($id) {
-    CourseController::delete($id);
-});
-
 $routes->get('/teams', function() {
     TeamController::index();
 });
@@ -56,8 +56,24 @@ $routes->get('/teams/:id', function($id) {
     TeamController::show($id);
 });
 
-$routes->post('/teams/:id/join', function($id) {
+$routes->get('/teams/:id/edit', function($id) {
+    TeamController::edit($id);
+});
+
+$routes->post('/teams/:id/edit', function($id) {
+    TeamController::update($id);
+});
+
+$routes->post('/teams/:id/destroy', function($id) {
+    TeamController::destroy($id);
+});
+
+$routes->post('/teams/:id/join', 'check_logged_in', function($id) {
     MemberController::store($id);
+});
+
+$routes->post('/teams/:id/leave', 'check_logged_in', function($id) {
+    MemberController::destroy($id);
 });
 
 $routes->get('/holeinones', function() {
@@ -76,6 +92,18 @@ $routes->get('/holeinones/:id', function($id) {
     HoleinoneController::show($id);
 });
 
+$routes->get('/holeinones/:id/edit', function($id) {
+    HoleinoneController::edit($id);
+});
+
+$routes->post('/holeinones/:id/edit', function($id) {
+    HoleinoneController::update($id);
+});
+
+$routes->post('/holeinones/:id/destroy', function($id) {
+    HoleinoneController::destroy($id);
+});
+
 $routes->get('/records', function() {
     RecordController::index();
 });
@@ -88,12 +116,16 @@ $routes->get('/records/add_record', function() {
     RecordController::create();
 });
 
-$routes->get('/records/my', function() {
+$routes->get('/records/my', 'check_logged_in', function() {
     RecordController::my();
 });
 
 $routes->post('/records/my', function() {
     RecordController::store();
+});
+
+$routes->post('/records/:id/destroy', function($id) {
+    RecordController::destroy($id);
 });
 
 $routes->get('/register', function() {
@@ -112,6 +144,10 @@ $routes->post('/login', function() {
     GolferController::handle_login();
 });
 
+$routes->post('/logout', function() {
+    GolferController::logout();
+});
+
 $routes->get('/golfers', function() {
     GolferController::index();
 });
@@ -122,13 +158,5 @@ $routes->get('/delete', function() {
 
 $routes->get('/records/edit_record', function() {
     HelloWorldController::edit_record();
-});
-
-$routes->get('/teams/show_team/edit_team', function() {
-    HelloWorldController::edit_team();
-});
-
-$routes->get('/holeinones/show_holeinone/edit_holeinone', function() {
-    HelloWorldController::edit_holeinone();
 });
 

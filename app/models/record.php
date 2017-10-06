@@ -1,6 +1,14 @@
 <?php
 
+/*
+ * Malli. Mallintaa Tulos -oliota.
+ */
+
 class Record extends BaseModel {
+    /*
+     * id = tunniste, golfer = pelaajaid, course = rataid, score = tulos,
+     * date = päivämäärä jolloin tulos on tehty, added = tuloksen lisäyspäivä
+     */
 
     public $id, $golfer, $course, $score, $date, $added;
 
@@ -10,8 +18,14 @@ class Record extends BaseModel {
         $this->validators = array('validate_score', 'validate_date');
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Tulos ORDER BY rataid, tulos');
+    /*
+     * Palauttaa kaikilta golffareilta parhaan tuloksen jokaisella radalla.
+     * Nämä lisäksi järjestetään ensisijaisesti radat järjestykseen ja 
+     * toissijaisesti tulokset järjestykseen.
+     */
+
+    public static function allUniqueNameCourseOrdered() {
+        $query = DB::connection()->prepare('SELECT DISTINCT * FROM tulos WHERE tulos in (SELECT DISTINCT min(tulos.tulos) FROM tulos GROUP BY pelaajaid, rataid) ORDER BY rataid, tulos');
 
         $query->execute();
 
@@ -33,81 +47,17 @@ class Record extends BaseModel {
         return $records;
     }
 
-    public static function allWithNames() {
-        include_once 'app/models/golfer.php';
-        include_once 'app/models/course.php';
-        $records = self::all();
-        $recordswnames = array();
+    /*
+     * Palauttaa kaikki Tulokset tietokannasta listana.
+     */
 
+    public static function all() {
+        $query = DB::connection()->prepare('SELECT * FROM Tulos');
 
-        foreach ($records as $row) {
-            $recordswnames[] = array(
-                'id' => $row->id,
-                'golfer' => $row->golfer,
-                'course' => $row->course,
-                'golfername' => Golfer::find($row->golfer)[0]->name,
-                'coursename' => Course::find($row->course)[0]->name,
-                'score' => $row->score,
-                'date' => $row->date,
-                'added' => $row->added
-            );
-        }
-        
-        return $recordswnames;
-    }
-    
-    public static function allWithCourse($id) {
-        include_once 'app/models/golfer.php';
-        include_once 'app/models/course.php';
-        $records = self::all();
-        $recordswcourse = array();
+        $query->execute();
 
-
-        foreach ($records as $row) {
-            if ($row->course != $id) {
-                continue;
-            }
-            $recordswcourse[] = array(
-                'id' => $row->id,
-                'golfer' => $row->golfer,
-                'course' => $row->course,
-                'golfername' => Golfer::find($row->golfer)[0]->name,
-                'coursename' => Course::find($row->course)[0]->name,
-                'score' => $row->score,
-                'date' => $row->date,
-                'added' => $row->added
-            );
-        }
-        return $recordswcourse;
-    }
-    
-    public static function allWithTeam($team) {
-        include_once 'app/models/golfer.php';
-        include_once 'app/models/course.php';
-        $records = self::allWithTeamActualRecordNoName($team);
-        $recordswteam = array();
-
-        foreach ($records as $row) {
-            $recordswteam[] = array(
-                'id' => $row->id,
-                'golfer' => $row->golfer,
-                'course' => $row->course,
-                'golfername' => Golfer::find($row->golfer)[0]->name,
-                'coursename' => Course::find($row->course)[0]->name,
-                'score' => $row->score,
-                'date' => $row->date,
-                'added' => $row->added
-            );
-        }
-        return $recordswteam;
-    }
-    
-    public static function allWithTeamActualRecordNoName($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Jasenliitos JOIN Golffari ON golffari.id = jasenliitos.pelaajaid JOIN Tulos ON golffari.id = tulos.pelaajaid WHERE Jasenliitos.joukkueid = :id ORDER BY rataid, tulos');
-        $query->execute(array('id' => $id));
-        
         $rows = $query->fetchAll();
-        
+
         $records = array();
 
         foreach ($rows as $row) {
@@ -122,9 +72,126 @@ class Record extends BaseModel {
         }
 
         return $records;
-        
     }
-    
+
+    /*
+     * Lisää tuloksiin nimet eli golffarin nimen ja radan nimen. 
+     * Hakee tulokset allUniqueNameCourseOrdered:lla.
+     */
+
+    public static function allWithNames() {
+        include_once 'app/models/golfer.php';
+        include_once 'app/models/course.php';
+        $records = self::allUniqueNameCourseOrdered();
+        $recordswnames = array();
+
+
+        foreach ($records as $row) {
+            $recordswnames[] = array(
+                'id' => $row->id,
+                'golfer' => $row->golfer,
+                'course' => $row->course,
+                'golfername' => Golfer::find($row->golfer)->name,
+                'coursename' => Course::find($row->course)->name,
+                'score' => $row->score,
+                'date' => $row->date,
+                'added' => $row->added
+            );
+        }
+
+        return $recordswnames;
+    }
+
+    /*
+     * Palauttaa tietyllä radalla tehdyt tulokset.
+     * Lisää tuloksiin nimet eli golffarin nimen ja radan nimen. 
+     * Hakee tulokset allUniqueNameCourseOrdered:lla.
+     */
+
+    public static function allWithCourse($id) {
+        include_once 'app/models/golfer.php';
+        include_once 'app/models/course.php';
+        $records = self::allUniqueNameCourseOrdered();
+        $recordswcourse = array();
+
+
+        foreach ($records as $row) {
+            if ($row->course != $id) {
+                continue;
+            }
+            $recordswcourse[] = array(
+                'id' => $row->id,
+                'golfer' => $row->golfer,
+                'course' => $row->course,
+                'golfername' => Golfer::find($row->golfer)->name,
+                'coursename' => Course::find($row->course)->name,
+                'score' => $row->score,
+                'date' => $row->date,
+                'added' => $row->added
+            );
+        }
+        return $recordswcourse;
+    }
+
+    /*
+     * Palauttaa tietyn Joukkueen tulokset.
+     * Lisää tuloksiin nimet eli golffarin nimen ja radan nimen. 
+     * Hakee tulokset allWithTeamActualRecordNoName:lla.
+     */
+
+    public static function allWithTeam($team) {
+        include_once 'app/models/golfer.php';
+        include_once 'app/models/course.php';
+        $records = self::allWithTeamActualRecordNoName($team);
+        $recordswteam = array();
+
+        foreach ($records as $row) {
+            $recordswteam[] = array(
+                'id' => $row->id,
+                'golfer' => $row->golfer,
+                'course' => $row->course,
+                'golfername' => Golfer::find($row->golfer)->name,
+                'coursename' => Course::find($row->course)->name,
+                'score' => $row->score,
+                'date' => $row->date,
+                'added' => $row->added
+            );
+        }
+        return $recordswteam;
+    }
+
+    /*
+     * Palauttaa tietyn Joukkueen tulokset ilman nimiä.
+     */
+
+    public static function allWithTeamActualRecordNoName($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Jasenliitos JOIN Golffari ON golffari.id = jasenliitos.pelaajaid JOIN Tulos ON golffari.id = tulos.pelaajaid WHERE Jasenliitos.joukkueid = :id ORDER BY rataid, tulos');
+        $query->execute(array('id' => $id));
+
+        $rows = $query->fetchAll();
+
+        $records = array();
+
+        foreach ($rows as $row) {
+            $records[] = new Record(array(
+                'id' => $row['id'],
+                'golfer' => $row['pelaajaid'],
+                'course' => $row['rataid'],
+                'score' => $row['tulos'],
+                'date' => $row['pvm'],
+                'added' => $row['luotu']
+            ));
+        }
+
+        return $records;
+    }
+
+    /*
+     * Palauttaa tulokset, joissa tietty Joukkue ja Rata.
+     * Lisää tuloksiin nimet eli golffarin nimen ja radan nimen. 
+     * Hakee tulokset allWithTeamActualRecordNoName:lla.
+     */
+
     public static function allWithTeamAndCourse($team, $course) {
         include_once 'app/models/golfer.php';
         include_once 'app/models/course.php';
@@ -141,8 +208,8 @@ class Record extends BaseModel {
                 'id' => $row->id,
                 'golfer' => $row->golfer,
                 'course' => $row->course,
-                'golfername' => Golfer::find($row->golfer)[0]->name,
-                'coursename' => Course::find($row->course)[0]->name,
+                'golfername' => Golfer::find($row->golfer)->name,
+                'coursename' => Course::find($row->course)->name,
                 'score' => $row->score,
                 'date' => $row->date,
                 'added' => $row->added
@@ -151,13 +218,17 @@ class Record extends BaseModel {
         return $recordswithteamandcourse;
     }
 
+    /*
+     * Palauttaa Tulos-olion, jonka tunnus on parametrina saatu tunnus, tai null jos tunnusta ei löydy tietokannasta
+     */
+
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT * FROM Tulos WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
 
         if ($row) {
-            $record[] = new Record(array(
+            $record = new Record(array(
                 'id' => $row['id'],
                 'golfer' => $row['pelaajaid'],
                 'course' => $row['rataid'],
@@ -172,39 +243,19 @@ class Record extends BaseModel {
         return null;
     }
 
-//    public static function findwme($id) {
-//        $query = DB::connection()->prepare('SELECT * FROM Tulos WHERE pelaajaid = :id LIMIT 1');
-//        $query->execute(array('id' => $id));
-//        $row = $query->fetch();
-//
-//        if ($row) {
-//            
-//            $records[] = new Record(array(
-//                'id' => $row['id'],
-//                'golfer' => $row['pelaajaid'],
-//                'course' => $row['rataid'],
-//                'score' => $row['tulos'],
-//                'date' => $row['pvm'],
-//                'added' => $row['luotu']
-//            ));
-//
-//            include_once 'app/models/golfer.php';
-//            include_once 'app/models/course.php';
-//
-//            return $records;
-//        }
-//
-//        return null;
-//    }
+    /*
+     * Hakee golffarin tulokset, järjestettynä ensisijaisesti radan ja toissijaisesti tuloksen mukaan.
+     * Lisää näihin golffarin nimen ja radan nimen.
+     */
 
     public static function findReturnWithNames($id) {
-        $query = DB::connection()->prepare('SELECT * FROM Tulos WHERE pelaajaid = :id');
+        $query = DB::connection()->prepare('SELECT * FROM Tulos WHERE pelaajaid = :id ORDER BY rataid, tulos');
         $query->execute(array('id' => $id));
         $rows = $query->fetchAll();
-        
+
         include_once 'app/models/golfer.php';
         include_once 'app/models/course.php';
-        
+
         $recordswnames = array();
 
 
@@ -213,38 +264,19 @@ class Record extends BaseModel {
                 'id' => $row['id'],
                 'golfer' => $row['pelaajaid'],
                 'course' => $row['rataid'],
-                'golfername' => Golfer::find($row['pelaajaid'])[0]->name,
-                'coursename' => Course::find($row['rataid'])[0]->name,
+                'golfername' => Golfer::find($row['pelaajaid'])->name,
+                'coursename' => Course::find($row['rataid'])->name,
                 'score' => $row['tulos'],
                 'date' => $row['pvm'],
                 'added' => substr($row['luotu'], 0, 10)
             );
         }
         return $recordswnames;
-
-//        if ($row) {
-//
-//            include_once 'app/models/golfer.php';
-//            include_once 'app/models/course.php';
-//
-//            $records[] = array(
-//                'id' => $row['id'],
-//                'golfer' => $row['pelaajaid'],
-//                'course' => $row['rataid'],
-//                'golfername' => Golfer::find($row['pelaajaid'])[0]->name,
-//                'coursename' => Course::find($row['rataid'])[0]->name,
-//                'score' => $row['tulos'],
-//                'date' => $row['pvm'],
-//                'added' => substr($row['luotu'], 0, 10)
-//            );
-//
-//
-//
-//            return $records;
-//        }
-//
-//        return null;
     }
+
+    /*
+     * Tallentaa tuloksen tietokantaan.
+     */
 
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Tulos (pelaajaid, rataid, tulos, pvm) VALUES (:golfer, :course, :score, :date) RETURNING id');
@@ -261,24 +293,27 @@ class Record extends BaseModel {
         $this->id = $row['id'];
     }
 
+    /*
+     * Poistaa tuloksen tietokannasta.
+     */
+
+    public function destroy() {
+        $query = DB::connection()->prepare('DELETE FROM Tulos WHERE id = :id');
+        $query->execute(array('id' => $this->id));
+    }
+
     public function validate_score() {
         $errors = array();
 
-        if (!is_numeric($this->score)) {
+        if (parent::validatenumber($this->score)) {
             $errors[] = 'Tulos tulee syöttää numerona';
         }
+
         return $errors;
     }
 
     public function validate_date() {
-        $errors = array();
-
-        if ($this->date != null && $this->date != '') {
-            if (!preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $this->date)) {
-                $errors[] = 'Päivämäärä väärässä muodossa, oikea muoto: PP.KK.VVVV';
-            }
-        }
-        return $errors;
+        return parent::validatedate($this->date);
     }
 
 }

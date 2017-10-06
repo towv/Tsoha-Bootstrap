@@ -6,6 +6,9 @@ require 'app/models/holeinone.php';
 require 'app/models/golfer.php';
 require 'app/models/record.php';
 require 'app/models/member.php';
+/*
+ * Kontrolleri. Hoitaa etusivun näyttämisen ja toimii apuna testauksessa.
+ */
 
 class HelloWorldController extends BaseController {
 
