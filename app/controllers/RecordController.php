@@ -9,6 +9,35 @@ require 'app/models/team.php';
 
 class RecordController extends BaseController {
 
+    // Vanha nostalginen index
+//    public static function index() {
+//        $params = $_POST;
+//        $team = 'all';
+//        if (isset($params["team"])) {
+//            $team = $params['team'];
+//        }
+//        $course = 'all';
+//        if (isset($params["course"])) {
+//            $course = $params['course'];
+//        }
+//
+//        if ($course == 'all' && $team == 'all') {
+//            $records = Record::allWithNames();
+//        } else if ($course != 'all' && $team == 'all') {
+//            $records = Record::allWithCourse($course);
+//        } else if ($course == 'all' && $team != 'all') {
+//            $records = Record::allWithTeam($team);
+//        } else {
+//            $records = Record::allWithTeamAndCourse($team, $course);
+//        }
+//
+//        $teams = Team::all();
+//        $courses = Course::all();
+//
+//        View::make('record/records.html', array('records' => $records, 'teams' => $teams, 'courses' => $courses));
+//    }
+
+    // UUSI tyylikkäämpi index
     public static function index() {
         $params = $_POST;
         $team = 'all';
@@ -19,16 +48,7 @@ class RecordController extends BaseController {
         if (isset($params["course"])) {
             $course = $params['course'];
         }
-
-        if ($course == 'all' && $team == 'all') {
-            $records = Record::allWithNames();
-        } else if ($course != 'all' && $team == 'all') {
-            $records = Record::allWithCourse($course);
-        } else if ($course == 'all' && $team != 'all') {
-            $records = Record::allWithTeam($team);
-        } else {
-            $records = Record::allWithTeamAndCourse($team, $course);
-        }
+        $records = Record::allWithNamesAndParametresOrdered($team, $course);
 
         $teams = Team::all();
         $courses = Course::all();

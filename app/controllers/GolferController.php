@@ -8,7 +8,7 @@ require 'app/models/golfer.php';
 class GolferController extends BaseController {
 
     public static function index() {
-        self::check_logged_in();
+//        self::check_logged_in();
         $golfers = Golfer::all();
         View::make('golfer/users.html', array('golfers' => $golfers));
     }
@@ -26,7 +26,7 @@ class GolferController extends BaseController {
 
         if (count($errors) == 0) {
             $golfer->save();
-            Redirect::to('/records');
+            Redirect::to('/login');
         } else {
             View::make('golfer/register.html', array('errors' => $errors, 'attributes' => $attributes));
         }

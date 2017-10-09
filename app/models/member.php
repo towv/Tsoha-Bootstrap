@@ -99,10 +99,7 @@ class Member extends BaseModel {
         $teams = array();
 
         foreach ($rows as $row) {
-            $members = new Member(array(
-                'golfer' => $row['pelaajaid'],
-                'team' => $row['joukkueid']
-            ));
+            $teams[] = Team::find($row['joukkueid']);
         }
         return $teams;
     }

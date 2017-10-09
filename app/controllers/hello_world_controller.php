@@ -11,10 +11,17 @@ require 'app/models/member.php';
  */
 
 class HelloWorldController extends BaseController {
-
+    
     public static function index() {
         // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
-        View::make('home.html');
+        if (isset($_SESSION['golfer'])) {
+            $teams = Member::findTeamsWmembers(self::get_user_logged_in()->id);
+            
+            View::make('home.html', array('teams' => $teams));
+        } else {
+            View::make('home.html');
+        }
+//        View::make('home.html');
         //echo 'Tämä on etusivu!';
     }
 

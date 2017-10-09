@@ -6,11 +6,25 @@
     <h1>Kuule {{user_logged_in.name}} ei täällä kannata notkua lähe kikelle</h1>
 </div>
 
+<tbody>
+    {% if teams %}
+<p>Kuulut joukkueisiin: </p>
+{% for team in teams %}
+<tr>
+    <td><a href="{{base_path}}/teams/{{team.id}}">{{team.name}}</a></td>
+<br></br>
+</tr>
+{% endfor %}
+{% else %}
+<a href="{{base_path}}/teams">Et kuulu vielä mihinkään joukkueeseen, liity toki</a>
+{% endif %}
+</tbody>
+
 <p align="right">
     Viikon fakta: Eväät ovat tärkeitä golffissa :)
 </p>
 
-    {% else %}
+{% else %}
 <div class="page-header">
     <h1>Tervetuloa Frisbeegolf Tulospalveluun</h1>
 </div>
