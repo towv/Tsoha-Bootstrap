@@ -44,15 +44,13 @@ class HoleinoneController extends BaseController {
         $errors = $holeinone->errors();
         if (count($errors) == 0) {
             require_once 'app/models/golfer.php';
-            if (isset($_SESSION['golfer'])) {
-                Golfer::updateHoleinoneTrue(self::get_user_logged_in()->id);
-            }
+            Golfer::updateHoleinoneTrue($holeinone->golfer);
             $holeinone->save();
             Redirect::to('/holeinones/' . $holeinone->id, array('message' => 'MITÄÄÄÄ!!??? HOLARI!'));
         } else {
             $courses = Course::all();
-            $golfers = Golfer::all();
-            View::make('holeinone/add_holeinones.html', array('courses' => $courses, 'golfers' => $golfers, 'errors' => $errors, 'attributes' => $attributes));
+            $golfer = self::get_user_logged_in()->id;
+            View::make('holeinone/add_holeinones.html', array('courses' => $courses, 'golfer' => $golfer, 'errors' => $errors, 'attributes' => $attributes));
         }
     }
 
