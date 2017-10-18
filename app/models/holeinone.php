@@ -162,6 +162,14 @@ class Holeinone extends BaseModel {
         if (parent::validatenumber($this->hole)) {
             $errors[] = 'Väylä syötetty väärin, syötä numero.';
         }
+        include_once 'app/models/course.php';
+        if ($this->hole > Course::find($this->course)->holes) {
+            $errors[] = 'Radalla ei kyseistä väylää, radalla vain ' . Course::find($this->course)->holes . ' väylää.';
+        }
+        
+        if ($this->hole < 1) {
+            $errors[] = 'Radan väylistä ensimmäinen on numero 1.';
+        }
 
         return $errors;
     }

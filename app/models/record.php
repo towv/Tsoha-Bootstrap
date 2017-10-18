@@ -177,7 +177,7 @@ class Record extends BaseModel {
         $errors = array();
 
         if (parent::validatenumber($this->score)) {
-            $errors[] = 'Tulos tulee syöttää numerona';
+            $errors[] = 'Tulos tulee syöttää numerona, max 100 min -100';
         }
 
         return $errors;

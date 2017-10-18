@@ -45,6 +45,7 @@ class BaseModel {
             $d = new DateTime($date);
         } catch (Exception $ex) {
             $errors[] = 'Päivämäärä väärässä muodossa, oikea muoto: PP.KK.VVVV tai YYYY-MM-DD';
+            return $errors;
         }
 
         if ($date == null || $date == '') {
@@ -92,6 +93,12 @@ class BaseModel {
             $boolean = TRUE;
         }
         if (is_numeric($number) == FALSE) {
+            $boolean = TRUE;
+        }
+        if ($number > 100) {
+            $boolean = TRUE;
+        }
+        if ($number < -100) {
             $boolean = TRUE;
         }
         return $boolean;

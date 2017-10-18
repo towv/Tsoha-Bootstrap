@@ -122,7 +122,7 @@ class Course extends BaseModel {
     public function validate_holes() {
         $errors = array();
         if (parent::validatenumber($this->holes)) {
-            $errors[] = 'Väylien määrä tulee syöttää numerona';
+            $errors[] = 'Väylien määrä tulee syöttää numerona max 100 min -100';
         }
         return $errors;
     }
@@ -134,7 +134,7 @@ class Course extends BaseModel {
     public function validate_par() {
         $errors = array();
         if (parent::validatenumber($this->par)) {
-            $errors[] = 'Ihannetulos tulee syöttää numerona';
+            $errors[] = 'Ihannetulos tulee syöttää numerona max 100 min -100';
         }
         return $errors;
     }

@@ -34,12 +34,26 @@ class MemberController extends BaseController {
     }
 
     public static function destroy($id) {
-        $member = new Member(array(
-            'golfer' => self::get_user_logged_in()->id,
-            'team' => $id
-        ));
-        $member->destroy();
-        Redirect::to('/teams/' . $id, array('message' => 'Olet eronnut joukkueesta'));
+
+        $members = Member::findMembersWteam($id);
+
+        $boolean = FALSE;
+
+        foreach ($members as $m) {
+            if ($m->golfer == self::get_user_logged_in()->id) {
+                $boolean = TRUE;
+            }
+        }
+        if ($boolean) {
+            $member = new Member(array(
+                'golfer' => self::get_user_logged_in()->id,
+                'team' => $id
+            ));
+            $member->destroy();
+            Redirect::to('/teams/' . $id, array('message' => 'Olet eronnut joukkueesta'));
+        } else {
+            Redirect::to('/teams/' . $id, array('message' => 'Et voi erota joukkueesta johon et kuulu!'));
+        }
     }
 
 }
